@@ -56,6 +56,7 @@ java_library(
     name = "server",
     srcs = glob(["tech/brownbear/server/*.java"]),
     deps = [
+        ":gson",
         ":guava",
         ":logging",
         ":soy",

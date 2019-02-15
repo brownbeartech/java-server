@@ -1,5 +1,7 @@
 package tech.brownbear.server;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import io.undertow.attribute.RemoteIPAttribute;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.Cookie;
@@ -44,6 +46,12 @@ public class Exchange<Session> implements ResponseRenderer {
         exchange.getResponseSender().send(text);
     }
 
+    @Override
+    public void renderJson(String json) {
+        exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+        exchange.getResponseSender().send(json);
+    }
+
     public void setStatusError() {
         exchange.setStatusCode(StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -75,6 +83,10 @@ public class Exchange<Session> implements ResponseRenderer {
 
     public String getRequestBodyJson() {
         return exchange.getAttachment(JsonParsingHandler.REQUEST_BODY_JSON);
+    }
+
+    public JsonElement getRequestJson() {
+        return new JsonParser().parse(getRequestBodyJson());
     }
 
     public String getRequiredParameter(String param) {

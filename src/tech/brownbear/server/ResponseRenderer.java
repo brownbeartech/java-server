@@ -11,6 +11,8 @@ public interface ResponseRenderer {
 
     void renderText(String text);
 
+    void renderJson(String json);
+
     void renderHtml(String templateName, Map<String, Object> args);
 
     void renderHtml(String templateName);
