@@ -80,8 +80,8 @@ public class Exchange<Session> implements ResponseRenderer {
     public byte[] getRequestBody() {
         ByteSource source = new ByteSource() {
             @Override
-            public InputStream openStream() throws IOException {
-                return exchange.getInputStream();
+            public InputStream openStream() {
+                return exchange.startBlocking().getInputStream();
             }
         };
         try {
