@@ -1,5 +1,6 @@
 package tech.brownbear.server;
 
+import com.google.common.io.ByteSource;
 import io.undertow.attribute.RemoteIPAttribute;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.Cookie;
@@ -10,6 +11,9 @@ import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
 import tech.brownbear.soy.SoyTemplateRenderer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +75,32 @@ public class Exchange<Session> implements ResponseRenderer {
     @Override
     public FileRenderer fileRenderer() {
         return fileRenderer;
+    }
+
+    public byte[] getRequestBody() {
+        ByteSource source = new ByteSource() {
+            @Override
+            public InputStream openStream() throws IOException {
+                return exchange.getInputStream();
+            }
+        };
+        try {
+            return source.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getRequestBodyString() {
+        return getRequestBodyString("UTF-8");
+    }
+
+    public String getRequestBodyString(String charsetName) {
+        try {
+            return new String(getRequestBody(), charsetName);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getRequiredParameter(String param) {
