@@ -19,6 +19,8 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -95,7 +97,7 @@ public class Exchange<Session> implements ResponseRenderer {
             }
         });
 
-        exchange.dispatch(readBody::get);
+        Executors.newCachedThreadPool().submit(readBody::get);
 
         return readBody.get();
     }
