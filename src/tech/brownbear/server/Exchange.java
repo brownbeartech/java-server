@@ -1,7 +1,5 @@
 package tech.brownbear.server;
 
-import com.google.common.base.Suppliers;
-import com.google.common.io.ByteSource;
 import io.undertow.attribute.RemoteIPAttribute;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.Cookie;
@@ -10,18 +8,15 @@ import io.undertow.server.handlers.form.FormData;
 import io.undertow.server.handlers.form.FormDataParser;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tech.brownbear.soy.SoyTemplateRenderer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Exchange<Session> implements ResponseRenderer {
+    protected static final Logger logger = LoggerFactory.getLogger(Exchange.class);
     private static final String UA_HEADER = "User-Agent";
 
     private final HttpServerExchange exchange;
@@ -78,29 +73,8 @@ public class Exchange<Session> implements ResponseRenderer {
         return fileRenderer;
     }
 
-    public byte[] getRequestBody() {
-        // This is dumb but I don't know the correct way to consume a single variable from a lambda
-        final List<byte[]> body = new ArrayList<>();
-        exchange.getRequestReceiver().receiveFullBytes((exchange, data) -> {
-                body.add(data);
-            },
-            (exchange, error) -> {
-                throw new RuntimeException(error);
-            }
-        );
-        return body.get(0);
-    }
-
-    public String getRequestBodyString() {
-        return getRequestBodyString("UTF-8");
-    }
-
-    public String getRequestBodyString(String charsetName) {
-        try {
-            return new String(getRequestBody(), charsetName);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+    public String getRequestBodyJson() {
+        return exchange.getAttachment(JsonParsingHandler.REQUEST_BODY_JSON);
     }
 
     public String getRequiredParameter(String param) {

@@ -1,6 +1,11 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 maven_jar(
+    name = "org_slf4j_api",
+    artifact = "org.slf4j:slf4j-api:1.7.22",
+)
+
+maven_jar(
     name = "com_google_guava",
     artifact = "com.google.guava:guava:21.0",
 )

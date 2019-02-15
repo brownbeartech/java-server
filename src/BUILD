@@ -21,6 +21,13 @@ java_library(
 )
 
 java_library(
+    name = "logging",
+    exports = [
+        "@org_slf4j_api//jar",
+    ],
+)
+
+java_library(
     name = "soy",
     exports = [
         "@com_google_template_soy//jar",
@@ -49,9 +56,10 @@ java_library(
     name = "server",
     srcs = glob(["tech/brownbear/server/*.java"]),
     deps = [
-        "//src:guava",
-        "//src:soy",
-        "//src:undertow",
+        ":guava",
+        ":logging",
+        ":soy",
+        ":undertow",
         "@tech_brownbear_resources//src:resources",
         "@tech_brownbear_soy//src:soy",
         "@org_slf4j_api//jar",

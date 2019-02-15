@@ -47,9 +47,16 @@ public class Server<Application extends AutoCloseable, Session> {
     public void start() {
         Undertow undertow = Undertow.builder()
             .addHttpListener(port, "0.0.0.0")
-            .setHandler(errors(buildFormParsing().setNext(buildPathHandler())))
+            .setHandler(buildHandlerList())
             .build();
         undertow.start();
+    }
+
+    private HttpHandler buildHandlerList() {
+        return errors(
+            buildFormParsing().setNext(
+            new JsonParsingHandler().setNext(
+            buildPathHandler())));
     }
 
     private ExceptionHandler errors(HttpHandler handler) {
