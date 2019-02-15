@@ -15,10 +15,7 @@ import tech.brownbear.soy.SoyTemplateRenderer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
@@ -82,24 +79,16 @@ public class Exchange<Session> implements ResponseRenderer {
     }
 
     public byte[] getRequestBody() {
-        ByteSource source = new ByteSource() {
-            @Override
-            public InputStream openStream() {
-                return exchange.startBlocking().getInputStream();
+        // This is dumb but I don't know the correct way to consume a single variable from a lambda
+        final List<byte[]> body = new ArrayList<>();
+        exchange.getRequestReceiver().receiveFullBytes((exchange, data) -> {
+                body.add(data);
+            },
+            (exchange, error) -> {
+                throw new RuntimeException(error);
             }
-        };
-
-        Supplier<byte[]> readBody = Suppliers.memoize(() -> {
-            try {
-                return source.read();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        Executors.newCachedThreadPool().submit(readBody::get);
-
-        return readBody.get();
+        );
+        return body.get(0);
     }
 
     public String getRequestBodyString() {
