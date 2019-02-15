@@ -1,5 +1,6 @@
 package tech.brownbear.server;
 
+import com.google.common.base.Suppliers;
 import com.google.common.io.ByteSource;
 import io.undertow.attribute.RemoteIPAttribute;
 import io.undertow.server.HttpServerExchange;
@@ -18,6 +19,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Exchange<Session> implements ResponseRenderer {
@@ -84,11 +86,18 @@ public class Exchange<Session> implements ResponseRenderer {
                 return exchange.startBlocking().getInputStream();
             }
         };
-        try {
-            return source.read();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        Supplier<byte[]> readBody = Suppliers.memoize(() -> {
+            try {
+                return source.read();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        exchange.dispatch(readBody::get);
+
+        return readBody.get();
     }
 
     public String getRequestBodyString() {
