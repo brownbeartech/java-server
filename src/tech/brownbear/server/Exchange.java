@@ -183,4 +183,8 @@ public class Exchange<Session> implements ResponseRenderer {
     public Throwable getException() {
         return exchange.getAttachment(ExceptionHandler.THROWABLE);
     }
+
+    public String getHostName() {
+        return exchange.getHostName();
+    }
 }
