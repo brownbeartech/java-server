@@ -20,7 +20,7 @@ maven_install(
         "org.slf4j:slf4j-api:1.7.22",
         "commons-logging:commons-logging:1.2",
         "com.google.guava:guava:28.0-jre",
-        "com.google.template:soy:2019-04-18",
+        "com.google.template:soy:2017-04-23",
         "com.google.code.gson:gson:2.8.5",
     ],
     repositories = [
@@ -35,13 +35,15 @@ maven_install(
 git_repository(
     name = "tech_brownbear_resources",
     remote = "https://github.com/brownbeartech/java-resources.git",
-    commit = "2c8a72188cc208ed0a342e8620ef1fa01cf08273"
+    commit = "826afee55c361b2a6b022c6c0458f486e20ce613",
+    shallow_since = "1562798190 -0400",
 )
 
 git_repository(
     name = "tech_brownbear_soy",
     remote = "https://github.com/brownbeartech/java-soy.git",
-    commit = "08a5a160dcc469054b5ebdc5264e754a8c8dd50d"
+    commit = "eafbcaea61801fe81d62bcd0cd238a26c0bfce54",
+    shallow_since = "1562798105 -0400",
 )
 
 # Brownbear local

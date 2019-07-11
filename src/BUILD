@@ -10,7 +10,7 @@ java_library(
         "@maven//:com_google_guava_guava",
         "@maven//:com_google_template_soy",
         "@maven//:com_google_code_gson_gson",
-        "@tech_brownbear_resources_local//src:resources",
-        "@tech_brownbear_soy_local//src:soy",
+        "@tech_brownbear_resources//src:resources",
+        "@tech_brownbear_soy//src:soy",
     ],
 )
