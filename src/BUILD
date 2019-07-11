@@ -6,7 +6,6 @@ java_library(
     deps = [
         "@maven//:io_undertow_undertow_core",
         "@maven//:org_slf4j_slf4j_api",
-        "@maven//:commons_logging_commons_logging",
         "@maven//:com_google_guava_guava",
         "@maven//:com_google_template_soy",
         "@maven//:com_google_code_gson_gson",

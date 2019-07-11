@@ -18,7 +18,6 @@ maven_install(
     artifacts = [
         "io.undertow:undertow-core:2.0.13.Final",
         "org.slf4j:slf4j-api:1.7.22",
-        "commons-logging:commons-logging:1.2",
         "com.google.guava:guava:28.0-jre",
         "com.google.template:soy:2017-04-23",
         "com.google.code.gson:gson:2.8.5",
@@ -42,8 +41,8 @@ git_repository(
 git_repository(
     name = "tech_brownbear_soy",
     remote = "https://github.com/brownbeartech/java-soy.git",
-    commit = "eafbcaea61801fe81d62bcd0cd238a26c0bfce54",
-    shallow_since = "1562798105 -0400",
+    commit = "93c3ae462c2c2f74d729091b6d0f63fbc03d662d",
+    shallow_since = "1562810223 -0400",
 )
 
 # Brownbear local
