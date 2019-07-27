@@ -187,4 +187,12 @@ public class Exchange<Session> implements ResponseRenderer {
     public String getHostName() {
         return exchange.getHostName();
     }
+
+    public int getPort() {
+        return exchange.getHostPort();
+    }
+
+    public String getProtocol() {
+        return exchange.getProtocol().toString();
+    }
 }
