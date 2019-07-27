@@ -9,6 +9,7 @@ import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.server.handlers.form.FormData;
 import io.undertow.server.handlers.form.FormDataParser;
 import io.undertow.util.Headers;
+import io.undertow.util.Protocols;
 import io.undertow.util.StatusCodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -193,6 +194,9 @@ public class Exchange<Session> implements ResponseRenderer {
     }
 
     public String getProtocol() {
-        return exchange.getProtocol().toString();
+        if (exchange.getProtocol().equals(Protocols.HTTP_2_0)) {
+            return "https";
+        }
+        return "http";
     }
 }
