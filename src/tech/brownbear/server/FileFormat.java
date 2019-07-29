@@ -1,7 +1,9 @@
 package tech.brownbear.server;
 
 public enum FileFormat {
-    PNG("image/png");
+    PNG("image/png"),
+    JSON("application/json"),
+    CSV("text/csv");
 
     private final String mimeType;
 
