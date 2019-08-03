@@ -3,7 +3,8 @@ package tech.brownbear.server;
 public enum FileFormat {
     PNG("image/png"),
     JSON("application/json"),
-    CSV("text/csv");
+    CSV("text/csv"),
+    XLSX("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
     private final String mimeType;
 
