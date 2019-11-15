@@ -57,6 +57,10 @@ public class Exchange<Session> implements ResponseRenderer {
         exchange.setStatusCode(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
+    public void setStatusCode(int status) {
+        exchange.setStatusCode(status);
+    }
+
     @Override
     public void renderHtml(String templateName, Map<String, Object> args) {
         renderHtml(templateInjectedData, templateName, args);
